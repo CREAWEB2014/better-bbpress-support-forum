@@ -4,20 +4,20 @@
 //this file doesnt really need to be on its own - was going to include the getyshopped
 //extra stuff in here but have taken it out and made another plugin
 //this code is not used in the beta version as it needs more testing and work
-add_filter('bbp_has_topics_query','bbps_lock_to_author');
+add_filter('bbp_has_topics_query','bbsf_lock_to_author');
 
-function bbps_lock_to_author($bbp_t){
+function bbsf_lock_to_author($bbp_t){
 global $wp_query;
 
 	//return if we are at a prem forum or the user is an admin or moderator	and we are not looking at a users profile page!
-	if ((bbps_is_premium_forum(bbp_get_forum_id()) == false || current_user_can('administrator') || current_user_can('bbp_moderator')) && !bbp_is_single_user()){
+	if ((bbsf_is_premium_forum(bbp_get_forum_id()) == false || current_user_can('administrator') || current_user_can('bbp_moderator')) && !bbp_is_single_user()){
 		return $bbp_t;
 	}	
 	
 	// is someone looking at a user page? if they are then we want to exclude all premium posts 
 	//and change the post author to be the users who profile it is
 	if ( bbp_is_single_user() ){
-		$premium_topics = bbps_get_all_premium_topic_ids();
+		$premium_topics = bbsf_get_all_premium_topic_ids();
 		$user_id = bbp_get_displayed_user_id();
 		$bbp_t['post_author'] = $user_id;
 		$bbp_t['author'] = $user_id;
@@ -46,22 +46,22 @@ global $wp_query;
 
 //This function will remove the authors name and link from the freshness
 // if the user is not an admin or a mod have I over written the functionality of private forums tho? Must test this
-function bbps_hide_author_link($author_link, $args = 0){
+function bbsf_hide_author_link($author_link, $args = 0){
 
 $retval = '';
-if (bbps_is_premium_forum(bbp_get_forum_id()) == false || current_user_can('administrator') || current_user_can('bbp_moderator'))
+if (bbsf_is_premium_forum(bbp_get_forum_id()) == false || current_user_can('administrator') || current_user_can('bbp_moderator'))
 	$retval = $author_link;
 
 return $retval;
 }
-add_filter('bbp_suppress_private_author_link','bbps_hide_author_link',5,2);
+add_filter('bbp_suppress_private_author_link','bbsf_hide_author_link',5,2);
 
 //Do the same ofr all the forum meta replace it with - if we are in premium forums admin and mods can see all info at all times
-function bbps_hide_forum_meta($retval, $forum_id = 0) {
-	if (bbps_is_premium_forum(bbp_get_forum_id()) == false || current_user_can('administrator') || current_user_can('bbp_moderator'))
+function bbsf_hide_forum_meta($retval, $forum_id = 0) {
+	if (bbsf_is_premium_forum(bbp_get_forum_id()) == false || current_user_can('administrator') || current_user_can('bbp_moderator'))
 		return $retval;
 	else
 	return $retval = '-';	
 }
-add_filter( 'bbp_suppress_private_forum_meta', 'bbps_hide_forum_meta',10,2 );
+add_filter( 'bbp_suppress_private_forum_meta', 'bbsf_hide_forum_meta',10,2 );
 ?>

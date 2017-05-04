@@ -1,13 +1,13 @@
 <?php 
-class bbps_claimed_topics_widget extends WP_Widget {
+class bbsf_claimed_topics_widget extends WP_Widget {
 	
 	function __construct(){
 		$widget_ops = array(
-				'classname' => 'bbps_claimed_topics_widget',
+				'classname' => 'bbsf_claimed_topics_widget',
 				'description' => 'Dsiplay a list of the users claimed topics'
 		);
 		
-		parent::__construct('bbps_claimed_topics_widget', 'Claimed Topics', $widget_ops);
+		parent::__construct('bbsf_claimed_topics_widget', 'Claimed Topics', $widget_ops);
 	}
 	
 	function form( $instance ){
@@ -55,7 +55,7 @@ function get_users_claimed_topics($number_claimed_topics){
 	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
 	
-	$claimed_query = "SELECT `meta_id`, `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbps_topic_claimed' AND `meta_value` = ".$user_id ." ORDER BY meta_id DESC LIMIT " . $number_claimed_topics ;
+	$claimed_query = "SELECT `meta_id`, `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbsf_topic_claimed' AND `meta_value` = ".$user_id ." ORDER BY meta_id DESC LIMIT " . $number_claimed_topics ;
 	$claimed_topics = $wpdb->get_results($claimed_query);
 	$permalink="";
 	echo "<ul>";

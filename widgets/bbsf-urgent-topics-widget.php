@@ -1,13 +1,13 @@
 <?php 
-class bbps_support_urgent_topics_widget extends WP_Widget {
+class bbsf_support_urgent_topics_widget extends WP_Widget {
 	
 	function __construct(){
 		$widget_ops = array(
-				'classname' => 'bbps_support_urgent_topics_widget',
+				'classname' => 'bbsf_support_urgent_topics_widget',
 				'description' => 'Dsiplay a list of urgent topics in your forum'
 		);
 		
-		parent::__construct('bbps_support_urgent_topics_widget', 'Urgent Topics', $widget_ops);
+		parent::__construct('bbsf_support_urgent_topics_widget', 'Urgent Topics', $widget_ops);
 	}
 	
 	function form( $instance ){
@@ -72,7 +72,7 @@ function widget($args, $instance){
 //urgent topics we want the oldest at the top!
 function get_urgent_topic_list(){
 	global $wpdb;
-	$urgent_query = "SELECT `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbps_urgent_topic' AND `meta_value` = 1";
+	$urgent_query = "SELECT `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbsf_urgent_topic' AND `meta_value` = 1";
 	$urgent_topics = $wpdb->get_col($urgent_query);
 	$permalink="";
 	$urgent_topic="";

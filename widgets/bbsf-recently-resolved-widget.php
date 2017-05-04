@@ -1,13 +1,13 @@
 <?php 
-class bbps_support_recently_resolved_widget extends WP_Widget {
+class bbsf_support_recently_resolved_widget extends WP_Widget {
 	
 	function __construct(){
 		$widget_ops = array(
-				'classname' => 'bbps_support_recently_resolved_widget',
+				'classname' => 'bbsf_support_recently_resolved_widget',
 				'description' => 'Dsiplay a list of recently resolved topics in your forum'
 		);
 		
-		parent::__construct('bbps_support_recently_resolved_widget', 'Recently Resolved', $widget_ops);
+		parent::__construct('bbsf_support_recently_resolved_widget', 'Recently Resolved', $widget_ops);
 	}
 	
 	function form( $instance ){
@@ -56,7 +56,7 @@ function widget($args, $instance){
 function get_resolved_topic_list($number_topics){
 	global $wpdb;
 	
-	$resolved_query = "SELECT `meta_id`, `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbps_topic_status' AND `meta_value` = 2 ORDER BY meta_id DESC LIMIT " . $number_topics ;
+	$resolved_query = "SELECT `meta_id`, `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbsf_topic_status' AND `meta_value` = 2 ORDER BY meta_id DESC LIMIT " . $number_topics ;
 	
 	$resolved_topics = $wpdb->get_results($resolved_query);
 	$permalink="";

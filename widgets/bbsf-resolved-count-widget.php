@@ -1,13 +1,13 @@
 <?php 
-class bbps_support_resolved_count_widget extends WP_Widget {
+class bbsf_support_resolved_count_widget extends WP_Widget {
 	
 	function __construct(){
 		$widget_ops = array(
-				'classname' => 'bbps_support_resolved_count_widget',
+				'classname' => 'bbsf_support_resolved_count_widget',
 				'description' => 'Dsiplay a count of resolved topics in your forum'
 		);
 		
-		parent::__construct('bbps_support_resolved_count_widget', 'Resolved Topic Count', $widget_ops);
+		parent::__construct('bbsf_support_resolved_count_widget', 'Resolved Topic Count', $widget_ops);
 	}
 	
 	function form( $instance ){
@@ -31,7 +31,7 @@ class bbps_support_resolved_count_widget extends WP_Widget {
 		$text_before_resolved = $instance['text_before_resolved'];
 		$text_after_resolved = $instance['text_after_resolved'];
 		
-		if (function_exists('bbps_add_support_forum_features')){
+		if (function_exists('bbsf_add_support_forum_features')){
 			?>
 			<p>Title: <input class="widefat" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr($title); ?>" /> </p>
 			
@@ -79,8 +79,8 @@ class bbps_support_resolved_count_widget extends WP_Widget {
 		$text_after_total = empty($instance['text_after_total'] ) ? '' : $instance['text_after_total'];
 		$text_before_resolved = empty($instance['text_before_resolved'] ) ? '' : $instance['text_before_resolved'];
 		$text_after_resolved = empty($instance['text_after_resolved'] ) ? '' : $instance['text_after_resolved'];
-		$total_resolved = bbps_get_resolved_count();
-		$total_topics = bbps_get_topic_count();
+		$total_resolved = bbsf_get_resolved_count();
+		$total_topics = bbsf_get_topic_count();
 		
 		if(!empty($title)) { echo $before_title . $title . $after_title; };
 		
@@ -101,23 +101,23 @@ class bbps_support_resolved_count_widget extends WP_Widget {
 } // end of resolved count class
 
 /* 
-function bbps_get_resolved_count
+function bbsf_get_resolved_count
 does a simple mysql query and counts all the resolved topics - status id 2
 @return the resolved topic count
  */
-function bbps_get_resolved_count(){
+function bbsf_get_resolved_count(){
 	global $wpdb;
-	$resolved_query = "SELECT `meta_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbps_topic_status' AND `meta_value` = 2";
+	$resolved_query = "SELECT `meta_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbsf_topic_status' AND `meta_value` = 2";
 	$resolved_count = $wpdb->get_col($resolved_query);
 	return count($resolved_count);
 }
 
 /* 
-function bbps_get_resolved_count
+function bbsf_get_resolved_count
 does a simple mysql query and counts all the topics
 @return the total topic count
  */
-function bbps_get_topic_count(){
+function bbsf_get_topic_count(){
 	global $wpdb;
 	$topic_query = "SELECT `ID` FROM " . $wpdb->posts . " WHERE `post_type` = 'topic' AND `post_status` = 'publish'";
 

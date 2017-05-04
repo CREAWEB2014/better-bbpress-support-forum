@@ -1,13 +1,13 @@
 <?php
-class bbps_support_hours_widget extends WP_Widget {
+class bbsf_support_hours_widget extends WP_Widget {
 
 	function __construct(){
 		$widget_ops = array(
-				'classname' => 'bbps_support_hours_widget',
+				'classname' => 'bbsf_support_hours_widget',
 				'description' => 'Set your support times for your support forum - these will be displayed to your posters'
 		);
 		
-		parent::__construct('bbps_support_hours_widget', 'Forum Support Hours', $widget_ops);
+		parent::__construct('bbsf_support_hours_widget', 'Forum Support Hours', $widget_ops);
 	}
 
 //build widget form settings
@@ -57,9 +57,9 @@ $display_hours = $instance['display_hours'];
 			<p>Open Time: <input class="widefat" name="<?php echo $this->get_field_name( 'open_time' ); ?>" type="text" value="<?php echo esc_attr($open_time); ?>" /> Please enter the opening time for your support forum in 24 hour formate eg: 9am 09:00 </p> 
 			
 			<p>Close Time: <input class="widefat" name="<?php echo $this->get_field_name( 'close_time' ); ?>" type="text" value="<?php echo esc_attr($close_time); ?>" /> Please enter the closing time for your support forum in 24 hour formate eg: 5pm 17:00 </p> 
-			<p>Open Image: <input class="widefat" name="<?php echo $this->get_field_name( 'open_img' ); ?>" type="text" value="<?php echo esc_attr($open_img); ?>" /> place your closing image into the following directory: <strong> <?php echo BBPS_WIDGETS_PATH ?>images </strong>  then enter the name of your opening image in here, please be careful to spell it correctly and add on the file extension. eg openimage.png </p> 
+			<p>Open Image: <input class="widefat" name="<?php echo $this->get_field_name( 'open_img' ); ?>" type="text" value="<?php echo esc_attr($open_img); ?>" /> place your closing image into the following directory: <strong> <?php echo BBSF_WIDGETS_PATH ?>images </strong>  then enter the name of your opening image in here, please be careful to spell it correctly and add on the file extension. eg openimage.png </p> 
 
-			<p>Close Image: <input class="widefat" name="<?php echo $this->get_field_name( 'close_img' ); ?>" type="text" value="<?php echo esc_attr($close_img); ?>" /> place your closing image into the following directory: <strong> <?php echo BBPS_WIDGETS_PATH ?>images </strong> then enter the name of your opening image in here, please be careful to spell it correctly and add on the file extension. eg closeimage.png </p> 
+			<p>Close Image: <input class="widefat" name="<?php echo $this->get_field_name( 'close_img' ); ?>" type="text" value="<?php echo esc_attr($close_img); ?>" /> place your closing image into the following directory: <strong> <?php echo BBSF_WIDGETS_PATH ?>images </strong> then enter the name of your opening image in here, please be careful to spell it correctly and add on the file extension. eg closeimage.png </p> 
 			<p>Open Text: <input class="widefat" name="<?php echo $this->get_field_name( 'forum_open_text' ); ?>" type="text" value="<?php echo esc_attr($forum_open_text); ?>" /> This will get displayed to your users when the forums are open. This text has a class of "forum_text" if you would like to style it differently</p> 
 			
 			<p>Closed Text: <input class="widefat" name="<?php echo $this->get_field_name( 'forum_closed_text' ); ?>" type="text" value="<?php echo esc_attr($forum_closed_text); ?>" /> This will get displayed to your users when the forums are closed. This text has a class of "forum_text" if you would like to style it differently </p> 
@@ -115,7 +115,7 @@ $display_hours = $instance['display_hours'];
 		$open = '';
 		//formate all the times ready to compaire them
 		$time= current_time_fixed('mysql', $gmt);
-		$day= bbps_current_date('mysql', $gmt);
+		$day= bbsf_current_date('mysql', $gmt);
 		$time = str_replace (':' , '', $time);
 		$open_time_raw = str_replace (':' , '', $open_time);
 		$close_time_raw = str_replace (':' , '', $close_time);
@@ -133,17 +133,17 @@ $display_hours = $instance['display_hours'];
 		if($open == true){
 			echo '<span class="forum_text">'.$forum_open_text.'</span><br />';
 			if ($open_img != '')
-				echo '<img src="'.BBPS_WIDGETS_URL .'/images/'.$open_img.'">';
+				echo '<img src="'.BBSF_WIDGETS_URL .'/images/'.$open_img.'">';
 			if($display_hours == 'on')
-				echo '<div class="forum_hours"> Our forum hours are: <br />'. bbps_format_time($open_time_raw) .' - '. bbps_format_time($close_time_raw) . '</div>';
+				echo '<div class="forum_hours"> Our forum hours are: <br />'. bbsf_format_time($open_time_raw) .' - '. bbsf_format_time($close_time_raw) . '</div>';
 		}
 		
 		if ($closed == true){
 			echo '<span class="forum_text">'.$forum_closed_text.'</span><br />';
 			if ($close_img != '')
-			echo '<img src="'.BBPS_WIDGETS_URL.'/images/'.$close_img.'">';
+			echo '<img src="'.BBSF_WIDGETS_URL.'/images/'.$close_img.'">';
 			if($display_hours == 'on')
-				echo '<div class="forum_hours"> Our forum hours are: <br />'. bbps_format_time($open_time_raw) .' - '. bbps_format_time($close_time_raw) . '</div>';
+				echo '<div class="forum_hours"> Our forum hours are: <br />'. bbsf_format_time($open_time_raw) .' - '. bbsf_format_time($close_time_raw) . '</div>';
 		}
 		
 		echo '<div id="html_clock">' . $clock_html. '</div></div>';
@@ -186,7 +186,7 @@ $display_hours = $instance['display_hours'];
 
 }  // end of support hours widget class
 
-function bbps_format_time($raw_time){
+function bbsf_format_time($raw_time){
 	
 	//if the closing time is 2400 (12 midnight) we want to display am not pm so it has its own case
 	//dont need to do the char count etc because we we know that there will be 4
@@ -237,7 +237,7 @@ function current_time_fixed( $type, $gmt=0 ) {
 }
 
 //returns the current date based on wordpress date settings for the site.
-function bbps_current_date( $type, $gmt = 0 ) {
+function bbsf_current_date( $type, $gmt = 0 ) {
 	$t =  ( $gmt ) ? gmdate( 'Y-m-d H:i:s' ) : gmdate( 'H:i', ( time() + ( get_option( 'gmt_offset' ) * 3600 ) ) );
 	$current_time_stamp = strtotime($t);
 	return date('l', $current_time_stamp);
