@@ -52,8 +52,7 @@ class bbps_claimed_topics_widget extends WP_Widget {
 } 
 // end of claimed topics class
 function get_users_claimed_topics($number_claimed_topics){
-	global $wpdb, $current_user;
-	get_currentuserinfo();
+	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
 	
 	$claimed_query = "SELECT `meta_id`, `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbps_topic_claimed' AND `meta_value` = ".$user_id ." ORDER BY meta_id DESC LIMIT " . $number_claimed_topics ;

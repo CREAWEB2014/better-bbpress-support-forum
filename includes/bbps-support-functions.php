@@ -221,8 +221,7 @@ function bbps_claim_topic_link(){
 	//bail if option not set or user permission not up to scratch or if the forum has not been set as a support forum
 	if( (get_option('_bbps_claim_topic') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator')) && (bbps_is_support_forum(bbp_get_forum_id())) ) {
 	$topic_id = bbp_get_topic_id();
-	global $current_user;
-    get_currentuserinfo();
+	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
 		//anything greater than one will be claimed as it saves the claimed user id and will set this back to 0 if a topic is unclaimed
 		if ( get_post_meta($topic_id, '_bbps_topic_claimed', true) < 1 ){
@@ -263,8 +262,7 @@ function bbps_unclaim_topic(){
 
 function bbps_display_claimed_message(){
 	$topic_author_id = bbp_get_topic_author_id();
-	global $current_user;
-	get_currentuserinfo();
+	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
 	//we want to display the claimed topic message to the topic owner to
 	if( (get_option('_bbps_claim_topic') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator') || $topic_author_id == $user_id ) && (bbps_is_support_forum(bbp_get_forum_id())) ) {
@@ -302,8 +300,7 @@ function bbps_assign_topic_form(){
 	if( (get_option('_bbps_topic_assign') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator')) ) { 
 		$topic_id = bbp_get_topic_id();
 		$topic_assigned = get_post_meta($topic_id, 'bbps_topic_assigned', true);
-		global $current_user;
-		get_currentuserinfo();
+		$current_user = wp_get_current_user();
 		$current_user_id = $current_user->ID;
 	?>	<div id="bbps_support_forum_options"> <?php
 			
@@ -418,8 +415,7 @@ function bbps_modify_title($title, $topic_id = 0){
 	$topic_id = bbp_get_topic_id( $topic_id );
 	$title = "";
 	$topic_author_id = bbp_get_topic_author_id();
-	global $current_user;
-	get_currentuserinfo();
+	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
 	
 	$claimed_user_id = get_post_meta($topic_id, '_bbps_topic_claimed', true);
