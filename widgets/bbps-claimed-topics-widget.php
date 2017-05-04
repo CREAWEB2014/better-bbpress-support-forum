@@ -1,13 +1,13 @@
 <?php 
 class bbps_claimed_topics_widget extends WP_Widget {
 	
-	function bbps_claimed_topics_widget(){
+	function __construct(){
 		$widget_ops = array(
 				'classname' => 'bbps_claimed_topics_widget',
 				'description' => 'Dsiplay a list of the users claimed topics'
 		);
 		
-		$this->WP_Widget('bbps_claimed_topics_widget', 'Claimed Topics', $widget_ops);
+		parent::__construct('bbps_claimed_topics_widget', 'Claimed Topics', $widget_ops);
 	}
 	
 	function form( $instance ){

@@ -1,13 +1,13 @@
 <?php
 class bbps_support_hours_widget extends WP_Widget {
 
-	function bbps_support_hours_widget(){
+	function __construct(){
 		$widget_ops = array(
 				'classname' => 'bbps_support_hours_widget',
 				'description' => 'Set your support times for your support forum - these will be displayed to your posters'
 		);
 		
-		$this->WP_Widget('bbps_support_hours_widget', 'Forum Support Hours', $widget_ops);
+		parent::__construct('bbps_support_hours_widget', 'Forum Support Hours', $widget_ops);
 	}
 
 //build widget form settings

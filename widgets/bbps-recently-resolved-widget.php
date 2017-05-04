@@ -1,13 +1,13 @@
 <?php 
 class bbps_support_recently_resolved_widget extends WP_Widget {
 	
-	function bbps_support_recently_resolved_widget(){
+	function __construct(){
 		$widget_ops = array(
 				'classname' => 'bbps_support_recently_resolved_widget',
 				'description' => 'Dsiplay a list of recently resolved topics in your forum'
 		);
 		
-		$this->WP_Widget('bbps_support_recently_resolved_widget', 'Recently Resolved', $widget_ops);
+		parent::__construct('bbps_support_recently_resolved_widget', 'Recently Resolved', $widget_ops);
 	}
 	
 	function form( $instance ){
