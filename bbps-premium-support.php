@@ -9,23 +9,20 @@ Version: 1.0.0
 
 // This is a fork of https://wordpress.org/plugins/bbpress-vip-support-plugin/ that updated 6 years ago :-)
 
-//////
-// Activate and Deactive functions
-/////
+/**
+ * Activation functions
+ * @return [type] [description]
+ */
 function bbps_activate() {
-	register_uninstall_hook( __FILE__, 'bbps_uninstall' );
 	
 	//include the options page now so we can save the options on activation.
 	include_once( plugin_dir_path(__FILE__).'includes/bbps-core-options.php' );
 	do_action( 'bbps-activation' );
-}
-	register_activation_hook( __FILE__ , 'bbps_activate' );
-
-
-//want toi remove the options etc TO DO
-function bbps_uninstall(){
 
 }
+
+register_activation_hook( __FILE__ , 'bbps_activate' );
+
 
 ////////
 // BBPS Main plugin Setup
