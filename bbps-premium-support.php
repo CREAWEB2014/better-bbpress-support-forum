@@ -24,23 +24,17 @@ function bbps_activate() {
 register_activation_hook( __FILE__ , 'bbps_activate' );
 
 
-////////
-// BBPS Main plugin Setup
-///////
-
 /*
 function bbps_setup
 called by the init hook.
 uses:
 @function bbps_define_constants
 @function bbps_includes
-@function bbps_load_css
 add any additional setup function calls into here
 */
 function bbps_setup(){
 	bbps_define_constants(); // defines all constants file paths etc
 	bbps_includes(); // includes all plugin files
-	bbps_load_css(); //load the css
 }
 add_action( 'plugins_loaded', 'bbps_setup');
 
@@ -107,24 +101,6 @@ function bbps_includes(){
 	
 }
 
-/*
-Load the CSS here
-not sure if we need both hooks and functions?
-*/
-function bbps_load_css(){
-	wp_enqueue_style( 'bbps-style.css', BBPS_TEMPLATES_URL.'/css/bbps-style.css');
-}
-add_action('wp_head','bbps_load_css');
-
-
-function bbps_stylesheet() {
-	// Bail out now if in admin panel or on login page
-	if ( is_admin() OR strstr( $_SERVER['REQUEST_URI'], 'wp-login.php' ) )
-		return;
-	// Load theme stylesheet
-	wp_enqueue_style( 'bbps-style.css', BBPS_TEMPLATES_URL.'/css/bbps-style.css' , false, '', 'screen' );
-}
-add_action( 'wp_print_styles', 'bbps_stylesheet' );
 
 //register the widgets
 
