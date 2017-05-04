@@ -1,11 +1,13 @@
 <?php
 /*
-Plugin Name: GetShopped Support Forum Plugin
-Plugin URI: http://getshopped.org
-Description: Turn your new bb-Press 2.0 forums into support forums
+Plugin Name: Better bbPress Support Forum
+Plugin URI: http://averta.net
+Description: Turn your new bb-Press 2.0 forums into support forums.
 Author: Mychelle, GetShopped, mufasa
-Version: 3.0
+Version: 1.0.0
 */
+
+// This is a fork of https://wordpress.org/plugins/bbpress-vip-support-plugin/ that updated 6 years ago :-)
 
 //////
 // Activate and Deactive functions
