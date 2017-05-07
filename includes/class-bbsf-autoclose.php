@@ -22,10 +22,10 @@ class BBSF_Autoclose {
             $data = get_transient( 'bbsf_autoclose_timer' );
            
             // Process only if transient isn't set and if current user is admin (to avoid decreasing page loading perfomance for users)
-            if( current_user_can( 'manage_options' ) ) {
+            if( 'on' === $data && current_user_can( 'manage_options' ) ) {
                    
                     // Set Transient
-                    set_transient( 'bbsf_autoclose_timer', 'on', 60*60*24 ); // 12 hours
+                    set_transient( 'bbsf_autoclose_timer', 'on', 60*60*24 ); // 24 hours
                    
                     // Get all old topics
                     $post_type      = bbp_get_topic_post_type();
