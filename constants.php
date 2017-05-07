@@ -1,5 +1,6 @@
 <?php 
 
+define( 'BBSF_VERSION'       , '1.0.0'                              );
 define( 'BBSF_PATH'          , plugin_dir_path( __FILE__ )          );
 define( 'BBSF_ADMIN_PATH'    , BBSF_PATH . 'admin/'                 );
 define( 'BBSF_TEMPLATE_PATH' , BBSF_PATH . 'templates/'             );
