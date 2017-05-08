@@ -48,6 +48,11 @@ class BBSF_Settings {
                 'title' => __( 'support Forum', 'bbsf' ),
                 'desc'  => __( 'Enable and configure the settings for support forums, these options will be displayed on each topic within your support forums.', 'bbsf' )
             ),
+            array(
+                'id'    => 'bbsf_import_settings',
+                'title' => __( 'Import settings', 'bbsf' ),
+                'desc'  => __( 'Import settings from other plugins or another site.', 'bbsf' )
+            ),
         );
         return $sections;
     }
@@ -273,7 +278,7 @@ class BBSF_Settings {
                     'default' => 'on'
                 ),
                 array(
-                    'name' => 'bbsf_allow_status_change_creator',
+                    'name' => 'bbsf_allow_status_change_moderator',
                     'label' => __( 'Forum Moderator', 'bbsf' ),
                     'desc' => __( 'Allow the forum moderators to update the post status.', 'bbsf' ),
                     'type' => 'checkbox',
@@ -316,21 +321,32 @@ class BBSF_Settings {
                     'type'  => 'checkbox',
                     'default'  => 'on'
                 ),
-                // array(
-                //     'name'  => '',
-                //     'label' => __( '', 'bbsf' ),
-                //     'desc'  => __( '', 'bbsf' ),
-                //     'type'  => '',
-                // ),
+
             ),
-            'bbfs_forum_user' => array(
-                array(
-                    'name' => ''
-                )
+            'bbsf_import_settings' => array(
+
             )
 
         );
+        
+        if ( 'no' === get_option( 'bbsf_imported_bbps', 'no' ) ) {
+            $settings_fields['bbsf_import_settings'][] = array(
+                    'name' => 'import_bbps_settings',
+                    'label' => 'Import Settings from bbPress VIP Support Forum',
+                    'desc' => '<a href="#" id="bbsf-import-bbps" class="button button-secondary" data-nonce="' . wp_create_nonce( "bbsf_import_bbps" ) . '">' . __( 'Start importing', 'bbsf' ) . '</a>',
+                    'type' => 'html'
+                );
+        } else {
+            $settings_fields['bbsf_import_settings'][] = array(
+                    'name' => 'import_bbps_settings',
+                    'label' => 'Import Settings from bbPress VIP Support Forum',
+                    'desc' => __( 'Settings are already imported. you can disable old plugin.', 'bbsf' ),
+                    'type' => 'html'
+                );
+        }
 
+
+                
         return $settings_fields;
     }
 
