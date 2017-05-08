@@ -64,6 +64,7 @@ class BBSF_Settings {
      */
     function get_settings_fields() {
         $settings_fields = array(
+
             'bbsf_ranking' => array(
                 array(
                     'name'              => 'bbsf_rank1',
@@ -216,133 +217,140 @@ class BBSF_Settings {
                     'sanitize_callback' => 'floatval'
                 ),
                 array(
-                    'name' => 'bbsf_show_post_count',
-                    'label' => __( 'Show forum post count', 'bbsf' ),
-                    'desc' => __( 'Show the users post count below their gravatar?', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'on'
+                    'name'              => 'bbsf_show_post_count',
+                    'label'             => __( 'Show forum post count', 'bbsf' ),
+                    'desc'              => __( 'Show the users post count below their gravatar?', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name' => 'bbsf_show_rank',
-                    'label' => __( 'Show Rank', 'bbsf' ),
-                    'desc' => __( 'Display the users rank title below their gravatar?', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'off'
-                )
+                    'name'              => 'bbsf_show_rank',
+                    'label'             => __( 'Show Rank', 'bbsf' ),
+                    'desc'              => __( 'Display the users rank title below their gravatar?', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'off'
+                ),
             ),
-            'bbsf_topic_status' => array(
+
+            'bbsf_topic_status'         => array(
                 array(
-                    'name' => 'bbsf_default_status',
-                    'label' => __( 'Default Status', 'bbsf' ),
-                    'desc' => __( 'This is the default status that will get displayed on all topics', 'bbsf' ),
-                    'type' => 'select',
-                    'options' => array(
-                        'not_resolved' => __( 'Not resolved', 'bbsf' ),
-                        'resolved' => __( 'Resolved', 'bbsf' ),
-                        'not_support' => __( 'Not a support question', 'bbsf' )
+                    'name'              => 'bbsf_default_status',
+                    'label'             => __( 'Default Status', 'bbsf' ),
+                    'desc'              => __( 'This is the default status that will get displayed on all topics', 'bbsf' ),
+                    'type'              => 'select',
+                    'options'           => array(
+                        'not_resolved'  => __( 'Not resolved', 'bbsf' ),
+                        'resolved'      => __( 'Resolved', 'bbsf' ),
+                        'not_support'   => __( 'Not a support question', 'bbsf' )
                     )
                 ),
                 array(
-                    'name' => 'bbsf_show_status_not_resolved',
-                    'label' => __( 'Display Status', 'bbsf' ),
-                    'desc' => __( 'Not resolved', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'on'
+                    'name'              => 'bbsf_show_status_not_resolved',
+                    'label'             => __( 'Display Status', 'bbsf' ),
+                    'desc'              => __( 'Not resolved', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name' => 'bbsf_show_status_resolved',
-                    'label' => __( 'Display Status', 'bbsf' ),
-                    'desc' => __( 'Resolved', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'on'
+                    'name'              => 'bbsf_show_status_resolved',
+                    'label'             => __( 'Display Status', 'bbsf' ),
+                    'desc'              => __( 'Resolved', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name' => 'bbsf_show_status_not_support',
-                    'label' => __( 'Display Status', 'bbsf' ),
-                    'desc' => __( 'Not a support question', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'on'
+                    'name'              => 'bbsf_show_status_not_support',
+                    'label'             => __( 'Display Status', 'bbsf' ),
+                    'desc'              => __( 'Not a support question', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name' => 'bbsf_allow_status_change_admin',
-                    'label' => __( 'Admin', 'bbsf' ),
-                    'desc' => __( 'Allow the admin to update the topic status (recommended).', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'on'
+                    'name'              => 'bbsf_allow_status_change_admin',
+                    'label'             => __( 'Admin', 'bbsf' ),
+                    'desc'              => __( 'Allow the admin to update the topic status (recommended).', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name' => 'bbsf_allow_status_change_creator',
-                    'label' => __( 'Topic Creator', 'bbsf' ),
-                    'desc' => __( 'Allow the person who created the topic to update the status.', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'on'
+                    'name'              => 'bbsf_allow_status_change_creator',
+                    'label'             => __( 'Topic Creator', 'bbsf' ),
+                    'desc'              => __( 'Allow the person who created the topic to update the status.', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name' => 'bbsf_allow_status_change_moderator',
-                    'label' => __( 'Forum Moderator', 'bbsf' ),
-                    'desc' => __( 'Allow the forum moderators to update the post status.', 'bbsf' ),
-                    'type' => 'checkbox',
-                    'default' => 'on'
+                    'name'              => 'bbsf_allow_status_change_moderator',
+                    'label'             => __( 'Forum Moderator', 'bbsf' ),
+                    'desc'              => __( 'Allow the forum moderators to update the post status.', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
             ),
-            'bbsf_support_forum' => array(
+
+            'bbsf_support_forum'        => array(
                 array(
-                    'name'  => 'bbsf_enable_urgent_status',
-                    'label' => __( 'Urgent Topic Status', 'bbsf' ),
-                    'desc'  => __( 'Allow the forum moderators and admin to mark a topic as Urgent, this will mark the topic title with [urgent].', 'bbsf' ),
-                    'type'  => 'checkbox',
-                    'default'  => 'on'
+                    'name'              => 'bbsf_enable_urgent_status',
+                    'label'             => __( 'Urgent Topic Status', 'bbsf' ),
+                    'desc'              => __( 'Allow the forum moderators and admin to mark a topic as Urgent, this will mark the topic title with [urgent].', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name'  => 'bbsf_enable_move_topics',
-                    'label' => __( 'Move topics', 'bbsf' ),
-                    'desc'  => __( 'Allow the forum moderators and admin to move topics to other forums.', 'bbsf' ),
-                    'type'  => 'checkbox',
-                    'default'  => 'on'
+                    'name'              => 'bbsf_enable_move_topics',
+                    'label'             => __( 'Move topics', 'bbsf' ),
+                    'desc'              => __( 'Allow the forum moderators and admin to move topics to other forums.', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name'  => 'bbsf_enable_assign_topics',
-                    'label' => __( 'Assign topics', 'bbsf' ),
-                    'desc'  => __( 'Allow administrators and forum moderators to assign topics to other administrators and forum moderators', 'bbsf' ),
-                    'type'  => 'checkbox',
-                    'default'  => 'on'
+                    'name'              => 'bbsf_enable_assign_topics',
+                    'label'             => __( 'Assign topics', 'bbsf' ),
+                    'desc'              => __( 'Allow administrators and forum moderators to assign topics to other administrators and forum moderators', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name'  => 'bbsf_enable_claim_topics',
-                    'label' => __( 'Claim topics', 'bbsf' ),
-                    'desc'  => __( 'Allow the forum moderators and admin to claim a topic, this will mark the topic title with [claimed] but will only show to forum moderators and admin users', 'bbsf' ),
-                    'type'  => 'checkbox',
-                    'default'  => 'on'
+                    'name'              => 'bbsf_enable_claim_topics',
+                    'label'             => __( 'Claim topics', 'bbsf' ),
+                    'desc'              => __( 'Allow the forum moderators and admin to claim a topic, this will mark the topic title with [claimed] but will only show to forum moderators and admin users', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
                 array(
-                    'name'  => 'bbsf_show_claimed_user',
-                    'label' => __( 'Display Username', 'bbsf' ),
-                    'desc'  => __( 'By selecting this option if a topic is claimed the claimed persons username will be displayed next to the topic title instead of the words [claimed], leaving this unchecked will default to [claimed]', 'bbsf' ),
-                    'type'  => 'checkbox',
-                    'default'  => 'on'
+                    'name'              => 'bbsf_show_claimed_user',
+                    'label'             => __( 'Display Username', 'bbsf' ),
+                    'desc'              => __( 'By selecting this option if a topic is claimed the claimed persons username will be displayed next to the topic title instead of the words [claimed], leaving this unchecked will default to [claimed]', 'bbsf' ),
+                    'type'              => 'checkbox',
+                    'default'           => 'on'
                 ),
 
             ),
-            'bbsf_import_settings' => array(
+
+            'bbsf_import_settings'      => array(
 
             )
 
         );
         
         if ( 'no' === get_option( 'bbsf_imported_bbps', 'no' ) ) {
+
             $settings_fields['bbsf_import_settings'][] = array(
-                'name' => 'import_bbps_settings',
+                'name'  => 'import_bbps_settings',
                 'label' => 'Import Settings from bbPress VIP Support Forum',
-                'desc' => '<a href="#" id="bbsf-import-bbps" class="button button-secondary" data-nonce="' . wp_create_nonce( "bbsf_import_bbps" ) . '">' . __( 'Start importing', 'bbsf' ) . '</a>',
-                'type' => 'html'
+                'desc'  => '<a href="#" id="bbsf-import-bbps" class="button button-secondary" data-nonce="' . wp_create_nonce( "bbsf_import_bbps" ) . '">' . __( 'Start importing', 'bbsf' ) . '</a>',
+                'type'  => 'html'
             );
+
         } else {
+
             $settings_fields['bbsf_import_settings'][] = array(
-                'name' => 'import_bbps_settings',
+                'name'  => 'import_bbps_settings',
                 'label' => 'Import Settings from bbPress VIP Support Forum',
-                'desc' => __( 'Settings are already imported. you can disable old plugin.', 'bbsf' ),
-                'type' => 'html'
+                'desc'  => __( 'Settings are already imported. you can disable old plugin.', 'bbsf' ),
+                'type'  => 'html'
             );
+
         }
 
 
