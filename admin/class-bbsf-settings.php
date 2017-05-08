@@ -331,18 +331,18 @@ class BBSF_Settings {
         
         if ( 'no' === get_option( 'bbsf_imported_bbps', 'no' ) ) {
             $settings_fields['bbsf_import_settings'][] = array(
-                    'name' => 'import_bbps_settings',
-                    'label' => 'Import Settings from bbPress VIP Support Forum',
-                    'desc' => '<a href="#" id="bbsf-import-bbps" class="button button-secondary" data-nonce="' . wp_create_nonce( "bbsf_import_bbps" ) . '">' . __( 'Start importing', 'bbsf' ) . '</a>',
-                    'type' => 'html'
-                );
+                'name' => 'import_bbps_settings',
+                'label' => 'Import Settings from bbPress VIP Support Forum',
+                'desc' => '<a href="#" id="bbsf-import-bbps" class="button button-secondary" data-nonce="' . wp_create_nonce( "bbsf_import_bbps" ) . '">' . __( 'Start importing', 'bbsf' ) . '</a>',
+                'type' => 'html'
+            );
         } else {
             $settings_fields['bbsf_import_settings'][] = array(
-                    'name' => 'import_bbps_settings',
-                    'label' => 'Import Settings from bbPress VIP Support Forum',
-                    'desc' => __( 'Settings are already imported. you can disable old plugin.', 'bbsf' ),
-                    'type' => 'html'
-                );
+                'name' => 'import_bbps_settings',
+                'label' => 'Import Settings from bbPress VIP Support Forum',
+                'desc' => __( 'Settings are already imported. you can disable old plugin.', 'bbsf' ),
+                'type' => 'html'
+            );
         }
 
 

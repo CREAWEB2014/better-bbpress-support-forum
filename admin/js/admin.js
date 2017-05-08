@@ -1,6 +1,6 @@
 jQuery( function($) {
 
-    $('a').on( 'click', function(e){
+    $('a#bbsf-import-bbps').on( 'click', function(e){
         
         e.preventDefault();
 
