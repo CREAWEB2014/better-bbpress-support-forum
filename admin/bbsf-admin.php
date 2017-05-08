@@ -124,64 +124,80 @@ function bbsf_import_bbps_ajax() {
 		wp_send_json_error();
 	}
 
+	/*----------------------------------------------------------------------------*/
+	$new_options = array();
 	$options_convert_array = array(
 
-		'bbsf_ranking' => array(
-			'_bbps_reply_count_title1'           => 'bbsf_rank1',
-			'_bbps_reply_count_start1'           => 'bbsf_rank1_start',
-			'_bbps_reply_count_end1'             => 'bbsf_rank1_end',
-			'_bbps_reply_count_title2'           => 'bbsf_rank2',
-			'_bbps_reply_count_start2'           => 'bbsf_rank2_start',
-			'_bbps_reply_count_end2'             => 'bbsf_rank2_end',
-			'_bbps_reply_count_title3'           => 'bbsf_rank3',
-			'_bbps_reply_count_start3'           => 'bbsf_rank3_start',
-			'_bbps_reply_count_end3'             => 'bbsf_rank3_end',
-			'_bbps_reply_count_title4'           => 'bbsf_rank4',
-			'_bbps_reply_count_start4'           => 'bbsf_rank4_start',
-			'_bbps_reply_count_end4'             => 'bbsf_rank4_end',
-			'_bbps_reply_count_start5'           => 'bbsf_rank5',
-			'_bbps_reply_count_start5'           => 'bbsf_rank5_start',
-			'_bbps_reply_count_end5'             => 'bbsf_rank5_end'
-		),
-
-		'bbsf_topic_status' => array(
-			'_bbps_enable_post_count'            => 'bbsf_show_post_count',
-			'_bbps_enable_user_rank'             => 'bbsf_show_rank',
-			'_bbps_default_status'               => 'bbsf_default_status',
-			'_bbps_used_status_1'                => 'bbsf_show_status_not_resolved',
-			'_bbps_used_status_2'                => 'bbsf_show_status_resolved',
-			'_bbps_used_status_3'                => 'bbsf_show_status_not_support',
-			'_bbps_status_permissions_admin'     => 'bbsf_allow_status_change_admin',
-			'_bbps_status_permissions_user'      => 'bbsf_allow_status_change_creator',
-			'_bbps_status_permissions_moderator' => 'bbsf_allow_status_change_moderator'
-		),
-
-		'bbsf_support_forum' => array(
-			'_bbps_status_permissions_urgent'    => 'bbsf_enable_urgent_status',
-			'_bbps_enable_topic_move'            => 'bbsf_enable_move_topics',
-			'_bbps_topic_assign'                 => 'bbsf_enable_assign_topics',
-			'_bbps_claim_topic'                  => 'bbsf_enable_claim_topics',
-			'_bbps_claim_topic_display'          => 'bbsf_show_claimed_user'
-		)
+		'_bbps_status_permissions_urgent'    => 'bbsf_enable_urgent_status',
+		'_bbps_enable_topic_move'            => 'bbsf_enable_move_topics',
+		'_bbps_topic_assign'                 => 'bbsf_enable_assign_topics',
+		'_bbps_claim_topic'                  => 'bbsf_enable_claim_topics',
+		'_bbps_claim_topic_display'          => 'bbsf_show_claimed_user'
 
 	);
 
+	foreach ( $options_convert_array as $old => $new ) {
+		$new_options[$new] = get_option( $old, '' ) ? 'on' : 'off';
+	}
 
-	foreach ( $options_convert_array as $option_section => $options ) {
+	update_option( 'bbsf_support_forum', $new_options );
+	/*----------------------------------------------------------------------------*/
+
+	/*----------------------------------------------------------------------------*/
+	$new_options = array();
+	$status_perm = get_option( '_bbps_status_permissions', array() );
+	
+	$new_options[ 'bbsf_allow_status_change_admin' ] = isset( $status_perm['admin'] ) ? 'on' : 'off';
+	$new_options[ 'bbsf_allow_status_change_user' ]  = isset( $status_perm['user'] ) ? 'on' : 'off';
+	$new_options[ 'bbsf_allow_status_change_mode' ]  = isset( $status_perm['mode'] ) ? 'on' : 'off';
+
+
+	$default_status = get_option( '_bbps_default_status', 1 );
+
+	switch ( $default_status ) {
+		case 1:
+			$new_default_status = 'not_resolved';
+			break;
+		case 2:
+			$new_default_status = 'resolved';
+			break;
+		case 3:
+			$new_default_status = 'not_support';
+			break;
+	}
+
+	$new_options['bbsf_default_status'] = $new_default_status;
+
+	$used_status = get_option( '_bbps_used_status', array() );
+
+	$new_options['bbsf_show_status_not_resolved'] = isset( $used_status['notres'] ) ? 'on' : 'off';
+	$new_options['bbsf_show_status_resolved']     = isset( $used_status['res'] )    ? 'on' : 'off';
+	$new_options['bbsf_show_status_not_support']  = isset( $used_status['notsup'] ) ? 'on' : 'off';
+
+	update_option( 'bbsf_topic_status', $new_options );
+	/*----------------------------------------------------------------------------*/
+
+	/*----------------------------------------------------------------------------*/
+	$new_options = array();
+	$reply_count = get_option( '_bbps_reply_count', array() );
+
+	foreach ( $reply_count as $lvl => $details ) {
 		
-		$new_options = array();
-
-		foreach ( $options as $old => $new ) {
-			$new_options[$new] = get_option( $old, '' );
-		}
-
-		update_option( $option_section, $new_options );
+		$new_options[ 'bbsf_rank' . $lvl ]            = $details['title'];
+		$new_options[ 'bbsf_rank' . $lvl . '_start' ] = $details['start'];
+		$new_options[ 'bbsf_rank' . $lvl . '_end' ]   = $details['end'];
 
 	}
 
-	update_option( 'bbsf_imported_bbps', 'yes' );
+	$new_options['bbsf_show_post_count'] = get_option( '_bbps_enable_post_count', false ) ? 'on' : 'off';
+	$new_options['bbsf_show_rank']       = get_option( '_bbps_enable_user_rank', false )  ? 'on' : 'off';
 
-	wp_send_json_success( get_option( '_bbsf_default_status', $default = false ) );
+	update_option( 'bbsf_ranking', $new_options );
+	/*----------------------------------------------------------------------------*/
+
+
+	// update_option( 'bbsf_imported_bbps', 'yes' );
+	wp_send_json_success( get_option( '_bbsf_default_status', false ) );
 
 
 }

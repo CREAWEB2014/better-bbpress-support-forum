@@ -273,14 +273,14 @@ class BBSF_Settings {
                     'default'           => 'on'
                 ),
                 array(
-                    'name'              => 'bbsf_allow_status_change_creator',
+                    'name'              => 'bbsf_allow_status_change_user',
                     'label'             => __( 'Topic Creator', 'bbsf' ),
                     'desc'              => __( 'Allow the person who created the topic to update the status.', 'bbsf' ),
                     'type'              => 'checkbox',
                     'default'           => 'on'
                 ),
                 array(
-                    'name'              => 'bbsf_allow_status_change_moderator',
+                    'name'              => 'bbsf_allow_status_change_mod',
                     'label'             => __( 'Forum Moderator', 'bbsf' ),
                     'desc'              => __( 'Allow the forum moderators to update the post status.', 'bbsf' ),
                     'type'              => 'checkbox',
