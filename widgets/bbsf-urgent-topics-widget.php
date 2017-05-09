@@ -61,7 +61,7 @@ function widget($args, $instance){
 		echo $before_widget;
 		$title = apply_filters('widget_title', $instance['title']);
 		if(!empty($title)) { echo $before_title . $title . $after_title; };
-			get_urgent_topic_list();
+			bbsf_get_urgent_topic_list();
 		echo $after_widget . " ";
 			
 	}				
@@ -70,7 +70,7 @@ function widget($args, $instance){
 
 } // end of resolved count class
 //urgent topics we want the oldest at the top!
-function get_urgent_topic_list(){
+function bbsf_get_urgent_topic_list(){
 	global $wpdb;
 	$urgent_query = "SELECT `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbsf_urgent_topic' AND `meta_value` = 1";
 	$urgent_topics = $wpdb->get_col($urgent_query);

@@ -6,6 +6,7 @@ class BBSF_Main {
 
         $this->admin_files();
         $this->general_files();
+        $this->widget_files();
 
     }
 
@@ -33,6 +34,15 @@ class BBSF_Main {
         require_once 'bbsf-user-ranking-functions.php';
         require_once 'class-bbsf-autoclose.php';
 
+    }
+
+
+    function widget_files() {
+        require_once BBSF_WIDGETS_PATH . 'bbsf-claimed-topics-widget.php';
+        require_once BBSF_WIDGETS_PATH . 'bbsf-forum-hours-widget.php';
+        require_once BBSF_WIDGETS_PATH . 'bbsf-recently-resolved-widget.php';
+        require_once BBSF_WIDGETS_PATH . 'bbsf-resolved-count-widget.php';
+        require_once BBSF_WIDGETS_PATH . 'bbsf-urgent-topics-widget.php';
     }
 
 

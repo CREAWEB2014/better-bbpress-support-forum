@@ -114,7 +114,7 @@ $display_hours = $instance['display_hours'];
 		$closed='';
 		$open = '';
 		//formate all the times ready to compaire them
-		$time= current_time_fixed('mysql', $gmt);
+		$time= bbsf_current_time_fixed('mysql', $gmt);
 		$day= bbsf_current_date('mysql', $gmt);
 		$time = str_replace (':' , '', $time);
 		$open_time_raw = str_replace (':' , '', $open_time);
@@ -224,7 +224,7 @@ function bbsf_format_time($raw_time){
 }
 //we want to display our forum stuff in the widget area this function here deals with the time
 
-function current_time_fixed( $type, $gmt=0 ) {
+function bbsf_current_time_fixed( $type, $gmt=0 ) {
 	$t =  ( $gmt ) ? gmdate( 'Y-m-d H:i:s' ) : gmdate( 'H:i', ( time() + ( get_option( 'gmt_offset' ) * 3600 ) ) );
 	switch ( $type ) {
 		case 'mysql':

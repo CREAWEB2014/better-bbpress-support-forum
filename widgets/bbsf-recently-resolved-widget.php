@@ -45,7 +45,7 @@ function widget($args, $instance){
 		echo $before_widget;
 		$title = apply_filters('widget_title', $instance['title']);
 		if(!empty($title)) { echo $before_title . $title . $after_title; };
-			get_resolved_topic_list($number_topics);
+			bbsf_get_resolved_topic_list($number_topics);
 		echo $after_widget . " ";		
 }
 
@@ -53,7 +53,7 @@ function widget($args, $instance){
 } // end of resolved count class
 
 
-function get_resolved_topic_list($number_topics){
+function bbsf_get_resolved_topic_list($number_topics){
 	global $wpdb;
 	
 	$resolved_query = "SELECT `meta_id`, `post_id` FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_bbsf_topic_status' AND `meta_value` = 2 ORDER BY meta_id DESC LIMIT " . $number_topics ;

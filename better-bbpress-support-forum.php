@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Better bbPress Support Forum
-Plugin URI: http://averta.net
-Description: Turn your new bb-Press 2.0 forums into support forums.
-Author: averta
-Version: 1.0.0
+ * Plugin Name: Better bbPress Support Forum
+ * Plugin URI: http://averta.net
+ * Description: Turn your new bb-Press 2.0 forums into support forums.
+ * Author: averta
+ * Version: 1.0.0
 */
 
 // This is a fork of https://wordpress.org/plugins/bbpress-vip-support-plugin/ that updated 6 years ago :-)
@@ -32,7 +32,7 @@ require_once 'includes/class-bbsf-main.php';
 
 //register the widgets
 
-// add_action('widgets_init', 'bbsf_register_widgets');
+add_action('widgets_init', 'bbsf_register_widgets');
 
 function bbsf_register_widgets(){
 	register_widget('bbsf_support_hours_widget');

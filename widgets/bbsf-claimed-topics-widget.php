@@ -45,13 +45,13 @@ class bbsf_claimed_topics_widget extends WP_Widget {
 			echo $before_widget;
 			$title = apply_filters('widget_title', $instance['title']);
 			if(!empty($title)) { echo $before_title . $title . $after_title; };
-				get_users_claimed_topics($number_claimed_topics);
+				bbsf_get_users_claimed_topics($number_claimed_topics);
 			echo $after_widget . " ";		
 	}
 
 } 
 // end of claimed topics class
-function get_users_claimed_topics($number_claimed_topics){
+function bbsf_get_users_claimed_topics($number_claimed_topics){
 	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
 	
