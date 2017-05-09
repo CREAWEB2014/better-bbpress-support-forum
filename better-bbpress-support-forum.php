@@ -4,7 +4,7 @@
  * Plugin URI: http://averta.net
  * Description: Turn your new bb-Press 2.0 forums into support forums.
  * Author: averta
- * Version: 1.0.0
+ * Version: 0.9.0
 */
 
 // This is a fork of https://wordpress.org/plugins/bbpress-vip-support-plugin/ that updated 6 years ago :-)
