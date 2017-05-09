@@ -23,22 +23,11 @@ function bbsf_extend_forum_attributes_mb($forum_id){
 
 	?>	
 	<hr />
-
-<!--
-This is not tested enough for people to start using so for now we will only have support forums
-<p>
-		<strong> Premium Forum:</strong>
-		<input type="checkbox" name="bbsf-premium-forum" value="1"  echo $checked; />
-		<br />
-		<small>Click here for more information about creating a premium forum.</small>
-	</p>
--->
 	
 	<p>
 		<strong><?php _e( 'Support Forum:', 'bbsf' ); ?></strong>
 		<input type="checkbox" name="bbsf-support-forum" value="1" <?php echo $checked1; ?>/>
-		<br />
-		<!-- <small>Click here To learn more about the support forum setting.</small> -->
+		<br>
 	</p>
 
 <?php	
@@ -74,32 +63,6 @@ $support_forum = get_post_meta( $forum_id, '_bbsf_is_support');
 	
 	return $forum_id;
 
-}
-
-
-
-function bbsf_validate_checkbox_group($input){
-    //update only the needed options
-    foreach ($input as $key => $value){
-        $newoptions[$key] = $value;
-    }
-    //return all options
-    return $newoptions;
-}
-
-function bbsf_validate_options($input){
-
-	$options = get_option('_bbsf_reply_count');
-	
-	$i = 1;
-	foreach ($input as $array){	
-		foreach ($array as $key => $value){
-		      $options[$i][$key] = $value;
-		        
-		    }
-			$i++;
-		}
-    return $options;
 }
 
 
