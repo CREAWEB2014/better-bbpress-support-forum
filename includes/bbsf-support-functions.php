@@ -1,10 +1,5 @@
 <?php
-/* 
-bbsf - support functions 
-Contains all the functions that generate and update the topic status.
-*/
 
-/* @TODO rename / rework this function so it makes sense - what a noob */
 function bbsf_get_update_capabilities(){
 	
 	global $current_user;
@@ -12,44 +7,42 @@ function bbsf_get_update_capabilities(){
 	$user_id = $current_user->ID;
 
 	$topic_author_id = bbp_get_topic_author_id();
-	$permissions = get_option('_bbsf_status_permissions');
-	$can_edit = "";
+	$can_edit = '';
 	//check the users permission this is easy
-	if( $permissions['admin'] == 1 && current_user_can('administrator') || $permissions['mod'] == 1 && current_user_can('bbp_moderator') ){
+	if( 'on' === bbsf_get_option( 'bbsf_allow_status_change_admin', 'bbsf_topic_status', 'off' ) && current_user_can('administrator') 
+	 || 'on' === bbsf_get_option( 'bbsf_allow_status_change_mode', 'bbsf_topic_status', 'off' ) && current_user_can('bbp_moderator') ){
 		$can_edit = true;
 	}
 	//now check the current user against the topic creator are they they same person and can they cahnge the status?
-	if ( $user_id == $topic_author_id && $permissions['user'] == 1 )
+	if ( $user_id == $topic_author_id && 'on' === bbsf_get_option( 'bbsf_allow_status_change_user', 'bbsf_topic_status', 'off' ) )
 		$can_edit = true;
 
 	return $can_edit;
 }
 
-/* @TODO ASAP */
-/* split this function up as its getting way to big now with all these extra features */
+add_action('bbp_template_before_single_topic', 'bbsf_add_support_forum_features');
 
- add_action('bbp_template_before_single_topic', 'bbsf_add_support_forum_features');
 function bbsf_add_support_forum_features(){	
 	//only display all this stuff if the support forum option has been selected.
 	if (bbsf_is_support_forum(bbp_get_forum_id())){
+
 		$can_edit = bbsf_get_update_capabilities();
 		$topic_id = bbp_get_topic_id();
 		$status = bbsf_get_topic_status($topic_id);
 		$forum_id = bbp_get_forum_id();
 		$user_id = get_current_user_id();
 		
-		
-		?> <div id="bbsf_support_forum_options"> <?php
+		?><div id="bbsf_support_forum_options"><?php
 		//get out the option to tell us who is allowed to view and update the drop down list.
-		if ( $can_edit == true ){ ?>
-			<?php bbsf_generate_status_options($topic_id,$status);
-		}else{
-		?>
-			This topic is: <?php echo $status ;
+		if ( $can_edit == true ) {
+			bbsf_generate_status_options($topic_id,$status);
+		} else {
+			_e( 'This topic is' . $status , 'bbsf' );
 		}
 		?> </div> <?php
 		//has the user enabled the move topic feature?
-		if( (get_option('_bbsf_enable_topic_move') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator')) ) { 
+		if( ( 'on' === bbsf_get_option( 'bbsf_enable_move_topics', 'bbsf_support_forum', 'off' ) ) 
+			&& (current_user_can('administrator') || current_user_can('bbp_moderator')) ) { 
 		?>
 		<div id ="bbsf_support_forum_move">
 			<form id="bbsf-topic-move" name="bbsf_support_topic_move" action="" method="post">
@@ -65,34 +58,37 @@ function bbsf_add_support_forum_features(){
 	}
 }
 
-function bbsf_get_topic_status($topic_id){
-	$default = get_option('_bbsf_default_status');
+function bbsf_get_topic_status( $topic_id ){
+
+	$default = bbsf_get_option( 'bbsf_default_status', 'bbsf_topic_status', 'not_resolved' );
 	$status = get_post_meta( $topic_id, '_bbsf_topic_status', true );	
-	//to do not hard code these if we let the users add their own satus
+	//to do not hard code these if we let the users add their own status
 	if ($status)
 		$switch = $status;
 	else
 		$switch = $default;
 		
 	switch($switch){
-		case 1:
-			return "not resolved";
+		case 'not_resolved':
+			return "Not resolved";
 			break;
-		case 2:
-			return "resolved";
+		case 'resolved':
+			return "Resolved";
 			break;
-		case 3:
-			return "not a support question";
+		case 'not_support':
+			return "Not a support question";
 			break;
 	}
 }
 
-//generates a drop down list with the support forum topic status only for admin and moderators tho.
+
 function bbsf_generate_status_options($topic_id){
 	
-	$dropdown_options = get_option( '_bbsf_used_status' );
+	$resolved_status = bbsf_get_option( 'bbsf_show_status_resolved', 'bbsf_topic_status', 'off' );
+	$not_resolved_status = bbsf_get_option( 'bbsf_show_status_not_resolved', 'bbsf_topic_status', 'off' );
+	$not_support_status = bbsf_get_option( 'bbsf_show_status_not_support', 'bbsf_topic_status', 'off' );
 	$status = get_post_meta( $topic_id, '_bbsf_topic_status', true );
-	$default = get_option('_bbsf_default_status');
+	$default = bbsf_get_option( 'bbsf_default_status', 'bbsf_topic_status', 'not_resolved' );
 
 	//only use the default value as selected if the topic doesnt ahve a status set
 	if ($status)
@@ -105,9 +101,9 @@ function bbsf_generate_status_options($topic_id){
 		<select name="bbsf_support_option" id="bbsf_support_options"> 
 			<?php
 			//we only want to display the options the user has selected. the long term goal is to let users add their own forum statuses
-			if ( $dropdown_options['res'] == 1 ){ ?> <option value="1" <?php selected( $value,1 ) ; ?> >not resolved</option> <?php }  
-			if ( $dropdown_options['notres'] == 1 ) {?> <option value="2" <?php selected( $value,2 ) ; ?> >resolved</option> <?php } 
-			if ( $dropdown_options['notsup'] == 1 ) {?> <option value="3" <?php selected( $value,3 ) ; ?> >not a support question</option> <?php } ?>
+			if ( 'on' === $resolved_status ){ ?> <option value="1" <?php selected( $value, 'resolved' ) ; ?> >not resolved</option> <?php }  
+			if ( 'on' === $not_resolved_status ) {?> <option value="2" <?php selected( $value, 'not_resolved' ) ; ?> >resolved</option> <?php } 
+			if ( 'on' === $not_support_status ) {?> <option value="3" <?php selected( $value, 'not_support' ) ; ?> >not a support question</option> <?php } ?>
 		</select>
 		<input type="submit" value="Update" name="bbsf_support_submit" />
 		<input type="hidden" value="bbsf_update_status" name="bbsf_action"/>
@@ -159,15 +155,12 @@ function bbsf_move_topic(){
 
 
 
-//Urgent topic code starts
-/* 
-function bbsf_urgent_topic_link 
-Checks the status of the option and generates and displays 
-a link based on if the topic is already marked as urgent
-*/
+
 function bbsf_urgent_topic_link(){
 	//bail if option not set or user permission not up to scratch or if the forum has not been set as a support forum
-	if( (get_option('_bbsf_status_permissions_urgent') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator')) && (bbsf_is_support_forum(bbp_get_forum_id())) ) {
+	if( ( 'on' === bbsf_get_option( 'bbsf_enable_urgent_status', 'bbsf_support_forum', 'off' ) ) 
+		&& ( current_user_can( 'manage_options' ) || current_user_can( 'bbp_moderator' ) ) 
+		&& ( bbsf_is_support_forum( bbp_get_forum_id() ) ) ) {
 	$topic_id = bbp_get_topic_id();
 		//1 = urgent topic 0 or nothing is topic not urgent so we give the admin / mods the chance to make it urgent
 		if ( get_post_meta($topic_id, '_bbsf_urgent_topic', true) != 1 ){
@@ -202,7 +195,7 @@ function bbsf_not_urgent_topic(){
 //display a message to all admin on the single topic view so they know a topic is urgent also give them a link to check it as not urgent
 function bbsf_display_urgent_message(){
 	//only display to the correct people
-	if( (get_option('_bbsf_status_permissions_urgent') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator') ) &&  (bbsf_is_support_forum( bbp_get_forum_id() )) ) {
+	if( ( 'on' === bbsf_get_option( 'bbsf_enable_urgent_status', 'bbsf_support_forum', 'off' ) ) && (current_user_can('manage_options') || current_user_can('bbp_moderator') ) &&  (bbsf_is_support_forum( bbp_get_forum_id() )) ) {
 		$topic_id = bbp_get_topic_id();
 		//topic is urgent so make a link
 		if(get_post_meta($topic_id, '_bbsf_urgent_topic', true) == 1){
@@ -219,7 +212,7 @@ add_action( 'bbp_template_before_single_topic' , 'bbsf_display_urgent_message' )
 
 function bbsf_claim_topic_link(){
 	//bail if option not set or user permission not up to scratch or if the forum has not been set as a support forum
-	if( (get_option('_bbsf_claim_topic') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator')) && (bbsf_is_support_forum(bbp_get_forum_id())) ) {
+	if( ( 'on' === bbsf_get_option( 'bbsf_enable_claim_topics', 'bbsf_support_forum', 'off' ) ) && (current_user_can('administrator') || current_user_can('bbp_moderator')) && (bbsf_is_support_forum(bbp_get_forum_id())) ) {
 	$topic_id = bbp_get_topic_id();
 	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
@@ -265,7 +258,7 @@ function bbsf_display_claimed_message(){
 	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
 	//we want to display the claimed topic message to the topic owner to
-	if( (get_option('_bbsf_claim_topic') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator') || $topic_author_id == $user_id ) && (bbsf_is_support_forum(bbp_get_forum_id())) ) {
+	if( ( 'on' === bbsf_get_option( 'bbsf_enable_claim_topics', 'bbsf_support_forum', 'off' ) ) && (current_user_can('administrator') || current_user_can('bbp_moderator') || $topic_author_id == $user_id ) && (bbsf_is_support_forum(bbp_get_forum_id())) ) {
 		
 		$topic_id = bbp_get_topic_id();
 		$claimed_user_id = get_post_meta($topic_id, '_bbsf_topic_claimed', true);
@@ -297,7 +290,7 @@ add_action( 'bbp_template_before_single_topic' , 'bbsf_display_claimed_message' 
 */
 function bbsf_assign_topic_form(){
 
-	if( (get_option('_bbsf_topic_assign') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator')) ) { 
+	if( ( 'on' === bbsf_get_option( 'bbsf_enable_assign_topics', 'bbsf_support_forum', 'off' ) ) && (current_user_can('manage_options') || current_user_can('bbp_moderator')) ) { 
 		$topic_id = bbp_get_topic_id();
 		$topic_assigned = get_post_meta($topic_id, 'bbsf_topic_assigned', true);
 		$current_user = wp_get_current_user();
@@ -398,17 +391,17 @@ EMAILMSG;
 
 // I believe this Problem is because your Plugin is loading at the wrong time, and can be fixed by wrapping your plugin in a wrapper class.
 //need to find a hook or think of the best way to do this
-	if (!empty($_POST['bbsf_support_topic_assign'])){
-		bbsf_assign_topic($_POST);
-	}
-	
-	if (!empty($_POST['bbsf_support_submit'])){
-		bbsf_update_status($_POST);
-	}
-	
-	if (!empty($_POST['bbsf_topic_move_submit'])){
-		bbsf_move_topic($_POST);
-	}
+if (!empty($_POST['bbsf_support_topic_assign'])){
+	bbsf_assign_topic($_POST);
+}
+
+if (!empty($_POST['bbsf_support_submit'])){
+	bbsf_update_status($_POST);
+}
+
+if (!empty($_POST['bbsf_topic_move_submit'])){
+	bbsf_move_topic($_POST);
+}
 
 // adds a class and status to the front of the topic title
 function bbsf_modify_title($title, $topic_id = 0){
@@ -433,7 +426,7 @@ function bbsf_modify_title($title, $topic_id = 0){
 	//claimed topics also only get shown to admin and moderators and the person who owns the topic
 	if (get_post_meta( $topic_id, '_bbsf_topic_claimed', true ) > 0 && (current_user_can('administrator') || current_user_can('bbp_moderator') || $topic_author_id == $user_id ) ){
 		//if this option == 1 we display the users name not [claimed]
-		if( get_option( '_bbsf_claim_topic_display' ) == 1)
+		if( 'on' === bbsf_get_option( 'bbsf_show_claimed_user', 'bbsf_support_forum', 'off' ) )
 			echo '<span class="claimed">['. $claimed_user_name . ']</span>';
 		else
 			echo '<span class="claimed"> [Claimed] </span>';

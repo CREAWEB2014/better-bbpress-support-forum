@@ -1,10 +1,4 @@
 <?php
-/*
-bbsf-user-ranking
-contains functions relating to the user ranking
-this file will grow as we extend our forum user options
-to include things like upload badges for your rankings etc!
-*/
 
 //update the user post count meta everytime the user creates a new post
 function bbsf_increament_post_count(){
@@ -32,8 +26,8 @@ add_action('save_post','bbsf_increament_post_count');
 
 
 function bbsf_check_ranking($user_id){
+
 	$user_rank = get_user_meta( $user_id, '_bbsf_rank_info' );
-	
 
 	$post_count = $user_rank[0]['post_count'];
 	$current_rank = $user_rank[0]['current_ranking'];
@@ -42,7 +36,7 @@ function bbsf_check_ranking($user_id){
 
 	$rankings = get_option( 'bbsf_ranking' );
 	
-	foreach ( (array) $rankings as $rank){
+	foreach ( (array) $rankings as $rank ){
 
 		if ( isset( $rank['title'] ) && isset( $rank['start'] ) && isset( $rank['end'] ) ) {
 			
@@ -61,45 +55,27 @@ function bbsf_check_ranking($user_id){
 
 	}
 		
-		$meta = array(	'post_count' => $post_count,
-						'current_ranking' => $current_rank,);
-					
-		update_user_meta( $user_id, '_bbsf_rank_info', $meta );
+	$meta = array(	'post_count' => $post_count,
+					'current_ranking' => $current_rank,);
+				
+	update_user_meta( $user_id, '_bbsf_rank_info', $meta );
+
 }
 
-/*
-function bbsf_create_user_ranking_meta
-called by bbsf_increament_post_count function, this will create the usermeta if this is their first post
-uses:
-@param $user_id - The User Id to create the meta for.
-@function get_option to get out all the rank info
-@function bbp_get_reply_author_id to get the user id for the reply / topic
-@function update_user_meta to create the user meta rank info
-@return nothing
-*/
-function bbsf_create_user_ranking_meta($user_id){
-$rankings = get_option('_bbsf_reply_count');
 
-		$meta = array(
-			'post_count' => '0', 
-			'current_ranking' => ''
-		);
-	
+function bbsf_create_user_ranking_meta( $user_id ){
+
+	$meta = array(
+		'post_count' => '0', 
+		'current_ranking' => ''
+	);
 	
 	update_user_meta( $user_id, '_bbsf_rank_info', $meta);
 }
 
-/*
-function bbsf_display_user_title
-called by the bbp_theme_after_reply_author_details hook in bbpress 2.0
-uses:
-@function get_option to check if it should show the rank
-@function bbp_get_reply_author_id to get the user id for the reply / topic
-@function get_user_meta to get the users rank info
-@return nothing
-*/
+
 function bbsf_display_user_title(){
-	if ( get_option('_bbsf_enable_user_rank') == 1 ){
+	if ( 'on' === bbsf_get_option( 'bbsf_show_rank', 'bbsf_ranking', 'off' ) ){
 		$user_id = bbp_get_reply_author_id();
 		$user_rank = get_user_meta( $user_id, '_bbsf_rank_info' );
 
@@ -109,17 +85,9 @@ function bbsf_display_user_title(){
 		
 }
 
-/*
-function bbsf_display_user_post_count
-called by the bbp_theme_after_reply_author_details hook in bbpress 2.0
-uses:
-@function get_option to check if it should show the post count
-@function bbp_get_reply_author_id to get the user id for the reply / topic
-@function get_user_meta to get the users rank info
-@return nothing
-*/
+
 function bbsf_display_user_post_count(){
-	if ( get_option('_bbsf_enable_post_count')== 1 ){
+	if ( 'yes' == bbsf_get_option( 'bbsf_show_post_count', 'bbsf_ranking' ) ){
 		$user_id = bbp_get_reply_author_id();
 		$user_rank = get_user_meta( $user_id, '_bbsf_rank_info' );
 		if( !empty($user_rank[0]['post_count']) )
@@ -128,26 +96,6 @@ function bbsf_display_user_post_count(){
 	}
 }
 
-/*
-function bbsf_display_trusted_tag
-called by the bbp_theme_after_reply_author_details hook in bbpress 2.0, 
-will display a trusted tag below the site administrators and bp-moderators gravitar
-uses:
-@function get_option to check if it should show the trusted message
-@function bbp_get_reply_author_id to get the user id for the reply / topic
-@function get_userdata to get the users capabilities
-@return nothing
-*/
-function bbsf_display_trusted_tag(){
-	$user_id = bbp_get_reply_author_id();
-	$user = get_userdata( $user_id );
-
-	if ( get_option('_bbsf_enable_trusted_tag')== 1 && ((!empty($user->wp_capabilities['administrator']) == 1) || (!empty($user->wp_capabilities['bbp_moderator']) == 1 ))  )
-	{
-		echo '<div id ="trusted"><em>Trusted</em></div>';
-	}
-}
 
 add_action('bbp_theme_after_reply_author_details', 'bbsf_display_user_title');
 add_action('bbp_theme_after_reply_author_details', 'bbsf_display_user_post_count');
-add_action('bbp_theme_after_reply_author_details', 'bbsf_display_trusted_tag');

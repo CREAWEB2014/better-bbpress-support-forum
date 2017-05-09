@@ -111,8 +111,8 @@ function bbsf_import_bbps_ajax() {
 	$status_perm = get_option( '_bbps_status_permissions', array() );
 	
 	$new_options[ 'bbsf_allow_status_change_admin' ] = isset( $status_perm['admin'] ) ? 'on' : 'off';
-	$new_options[ 'bbsf_allow_status_change_user' ]  = isset( $status_perm['user'] ) ? 'on' : 'off';
-	$new_options[ 'bbsf_allow_status_change_mode' ]  = isset( $status_perm['mode'] ) ? 'on' : 'off';
+	$new_options[ 'bbsf_allow_status_change_user' ]  = isset( $status_perm['user'] )  ? 'on' : 'off';
+	$new_options[ 'bbsf_allow_status_change_mode' ]  = isset( $status_perm['mode'] )  ? 'on' : 'off';
 
 
 	$default_status = get_option( '_bbps_default_status', 1 );
