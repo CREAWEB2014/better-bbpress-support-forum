@@ -3,15 +3,8 @@
 class BBSF_Autoclose {
 
     function __construct() {
-        
-        // // Check for existing bbPress
-        // if ( ! defined( 'BBCODE_VERSION' ) ) {
-        //     return;
-        // }
 
-        // error_log(date("Y-m-d H:i:s", strtotime("-2 month")));
-
-        add_action( 'admin_init', array( $this, 'auto_close' ) );
+        add_action( 'wp_ajax_bbfs_auto_close', array( $this, 'auto_close' ) );
 
     }
 
@@ -42,7 +35,7 @@ class BBSF_Autoclose {
                                             array(
                                                     'type'    => 'DATETIME',
                                                     'key'     => '_bbp_last_active_time',
-                                                    'value'   => date("Y-m-d H:i:s", strtotime("-2 month")),
+                                                    'value'   => date("Y-m-d H:i:s", strtotime("-12 month")),
                                                     'compare' => '<'
                                             )
                                     ) 
@@ -58,13 +51,13 @@ class BBSF_Autoclose {
                             // Loop
                             while ( $query->have_posts() ) : $query->the_post();
 
-                                    // Update status
-                                    update_post_meta( get_the_ID(), '_bbsf_topic_status', 2 );
+                                // Mark topic as resolved
+                                // update_post_meta( get_the_ID(), '_bbsf_topic_status', 2 );
 
-                                    wp_update_post( array(
-                                        'ID' => get_the_ID(),
-                                        'post_status' => 'closed'
-                                        ) );
+                                wp_update_post( array(
+                                    'ID' => get_the_ID(),
+                                    'post_status' => 'closed'
+                                    ) );
                                    
                             endwhile;
                            
