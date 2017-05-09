@@ -94,8 +94,3 @@ function bbsf_topic_resolved($topic_id){
 	else
 		return false;
 }
-
-
-
-
-?>

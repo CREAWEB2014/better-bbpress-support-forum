@@ -200,7 +200,7 @@ function bbsf_not_urgent_topic(){
 }
 
 //display a message to all admin on the single topic view so they know a topic is urgent also give them a link to check it as not urgent
-function display_urgent_message(){
+function bbsf_display_urgent_message(){
 	//only display to the correct people
 	if( (get_option('_bbsf_status_permissions_urgent') == 1) && (current_user_can('administrator') || current_user_can('bbp_moderator') ) &&  (bbsf_is_support_forum( bbp_get_forum_id() )) ) {
 		$topic_id = bbp_get_topic_id();
@@ -212,7 +212,7 @@ function display_urgent_message(){
 	}
 
 }
-add_action( 'bbp_template_before_single_topic' , 'display_urgent_message' );
+add_action( 'bbp_template_before_single_topic' , 'bbsf_display_urgent_message' );
 
 
 //Topic Claim code starts here
@@ -442,4 +442,3 @@ function bbsf_modify_title($title, $topic_id = 0){
 
 	
 add_action('bbp_theme_before_topic_title', 'bbsf_modify_title');
-?>

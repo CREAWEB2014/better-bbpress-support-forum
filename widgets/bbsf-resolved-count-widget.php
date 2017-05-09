@@ -125,4 +125,3 @@ function bbsf_get_topic_count(){
 	return count($topic_count);
 }
 
-?>

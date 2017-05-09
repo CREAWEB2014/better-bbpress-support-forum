@@ -63,4 +63,3 @@ function get_users_claimed_topics($number_claimed_topics){
 		echo '<li><a href="'.get_permalink($claimed_topic->post_id) .'"> ' . get_the_title($claimed_topic->post_id) . '</a></li>';
 	echo "</ul>";	
 }
-?>

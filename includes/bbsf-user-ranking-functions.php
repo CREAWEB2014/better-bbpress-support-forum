@@ -39,18 +39,27 @@ function bbsf_check_ranking($user_id){
 	$current_rank = $user_rank[0]['current_ranking'];
 	//$next_rank = $user_rank[0]['count_next_ranking'];
 	$post_count = $post_count + 1;
-	$rankings = get_option('_bbsf_reply_count');
+
+	$rankings = get_option( 'bbsf_ranking' );
 	
-		foreach ( (array) $rankings as $rank){
+	foreach ( (array) $rankings as $rank){
+
+		if ( isset( $rank['title'] ) && isset( $rank['start'] ) && isset( $rank['end'] ) ) {
+			
 			//if post count == the end value then this title no longer applies so remove it
 			//we subtract one here to allow for the between number eg between 1 - 4 we still
 			//want to dispaly the title if the post count is 4
-			if($post_count - 1 == $rank['end'])
+			if ( $post_count - 1 == $rank['end'] ) {
 				$current_rank ="";
+			}
 			
-			if ($post_count == $rank['start'])
+			if ( $post_count == $rank['start'] ) {
 				$current_rank = $rank['title'];	
+			}
+
 		}
+
+	}
 		
 		$meta = array(	'post_count' => $post_count,
 						'current_ranking' => $current_rank,);
@@ -142,4 +151,3 @@ function bbsf_display_trusted_tag(){
 add_action('bbp_theme_after_reply_author_details', 'bbsf_display_user_title');
 add_action('bbp_theme_after_reply_author_details', 'bbsf_display_user_post_count');
 add_action('bbp_theme_after_reply_author_details', 'bbsf_display_trusted_tag');
-?>

@@ -11,7 +11,7 @@ jQuery( function($) {
         };
 
         $.post( ajaxurl, data, function( resp ) {
-            if ( 'true' === resp.data ) {
+            if ( true === resp.success ) {
                 alert('Done!');
             }
         });

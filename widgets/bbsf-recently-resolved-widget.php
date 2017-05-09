@@ -66,4 +66,3 @@ function get_resolved_topic_list($number_topics){
 	echo "</ul>";	
 }
 
-?>

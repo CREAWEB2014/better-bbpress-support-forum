@@ -243,5 +243,3 @@ function bbsf_current_date( $type, $gmt = 0 ) {
 	return date('l', $current_time_stamp);
 }
 
-
-?>

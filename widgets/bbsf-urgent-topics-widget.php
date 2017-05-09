@@ -81,4 +81,3 @@ function get_urgent_topic_list(){
 		echo '<li><a href="'.get_permalink($urgent_topic) .'"> ' . get_the_title($urgent_topic) . '</a></li>';
 	echo "</ul>";	
 }
-?>

@@ -64,4 +64,3 @@ function bbsf_hide_forum_meta($retval, $forum_id = 0) {
 	return $retval = '-';	
 }
 add_filter( 'bbp_suppress_private_forum_meta', 'bbsf_hide_forum_meta',10,2 );
-?>
