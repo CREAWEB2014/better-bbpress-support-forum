@@ -159,7 +159,7 @@ function bbsf_import_bbps_ajax() {
 	/*----------------------------------------------------------------------------*/
 
 
-	// update_option( 'bbsf_imported_bbps', 'yes' );
+	update_option( 'bbsf_imported_bbps', 'yes' );
 	wp_send_json_success( get_option( '_bbsf_default_status', false ) );
 
 
