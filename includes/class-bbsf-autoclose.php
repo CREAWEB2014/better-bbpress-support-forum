@@ -2,9 +2,16 @@
 
 class BBSF_Autoclose {
 
+    public $time;
+
     function __construct() {
 
-        add_action( 'wp_ajax_bbfs_auto_close', array( $this, 'auto_close' ) );
+
+        if ( 0 == $this->time = bbsf_get_option( 'bbsf_auto_close_time', 'bbsf_auto_close', 0 ) ) {
+            return;
+        }
+
+        add_action( 'admin_init', array( $this, 'auto_close' ) );
 
     }
 
@@ -14,11 +21,12 @@ class BBSF_Autoclose {
             // Get Transient
             $data = get_transient( 'bbsf_autoclose_timer' );
            
-            // Process only if transient isn't set and if current user is admin (to avoid decreasing page loading perfomance for users)
-            if( 'on' === $data && current_user_can( 'manage_options' ) ) {
+            // Process only if transient isn't set and if current user is admin (to avoid decreasing page loading performance for users)
+            if( 'on' !== $data && current_user_can( 'manage_options' ) ) {
+            // if( current_user_can( 'manage_options' ) ) {
                    
                     // Set Transient
-                    set_transient( 'bbsf_autoclose_timer', 'on', 60*60*24 ); // 24 hours
+                    set_transient( 'bbsf_autoclose_timer', 'on', 60*60*48 ); // 48 hours
                    
                     // Get all old topics
                     $post_type      = bbp_get_topic_post_type();
@@ -30,12 +38,13 @@ class BBSF_Autoclose {
                             'update_post_meta_cache' => false,
                             'ignore_sticky_posts'    => 1,
                             'post_type'              => $post_type,
+                            'post_status'            => 'publish',
                             'posts_per_page'         => -1,
                             'meta_query' => array(
                                             array(
                                                     'type'    => 'DATETIME',
                                                     'key'     => '_bbp_last_active_time',
-                                                    'value'   => date("Y-m-d H:i:s", strtotime("-12 month")),
+                                                    'value'   => date("Y-m-d H:i:s", strtotime('-' . $this->time . ' days')),
                                                     'compare' => '<'
                                             )
                                     ) 
