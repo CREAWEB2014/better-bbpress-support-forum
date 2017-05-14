@@ -10,7 +10,7 @@ function bbsf_get_update_capabilities(){
 	$can_edit = '';
 	//check the users permission this is easy
 	if( 'on' === bbsf_get_option( 'bbsf_allow_status_change_admin', 'bbsf_topic_status', 'off' ) && current_user_can('administrator') 
-	 || 'on' === bbsf_get_option( 'bbsf_allow_status_change_mode', 'bbsf_topic_status', 'off' ) && current_user_can('bbp_moderator') ){
+	 || 'on' === bbsf_get_option( 'bbsf_allow_status_change_mod', 'bbsf_topic_status', 'off' ) && current_user_can('bbp_moderator') ){
 		$can_edit = true;
 	}
 	//now check the current user against the topic creator are they they same person and can they cahnge the status?
@@ -32,7 +32,7 @@ function bbsf_add_support_forum_features(){
 		$forum_id = bbp_get_forum_id();
 		$user_id = get_current_user_id();
 		
-		?><div id="bbsf_support_forum_options"><?php
+		?><div id="bbsf_support_forum_options" class="axi-topic-options"><?php
 		//get out the option to tell us who is allowed to view and update the drop down list.
 		if ( $can_edit == true ) {
 			bbsf_generate_status_options($topic_id,$status);
@@ -44,7 +44,7 @@ function bbsf_add_support_forum_features(){
 		if( ( 'on' === bbsf_get_option( 'bbsf_enable_move_topics', 'bbsf_support_forum', 'off' ) ) 
 			&& (current_user_can('administrator') || current_user_can('bbp_moderator')) ) { 
 		?>
-		<div id ="bbsf_support_forum_move">
+		<div id ="bbsf_support_forum_move" class="axi-topic-options">
 			<form id="bbsf-topic-move" name="bbsf_support_topic_move" action="" method="post">
 				<label for="bbp_forum_id">Move topic to: </label><?php bbp_dropdown(); ?>
 				<input type="submit" value="Move" name="bbsf_topic_move_submit" />
@@ -53,6 +53,8 @@ function bbsf_add_support_forum_features(){
 				<input type="hidden" value="<?php echo $forum_id ?>" name="bbp_old_forum_id" />
 			</form>
 		</div>  <?php
+
+		bbsf_assign_topic_form();
 			
 		}
 	}
@@ -295,7 +297,7 @@ function bbsf_assign_topic_form(){
 		$topic_assigned = get_post_meta($topic_id, 'bbsf_topic_assigned', true);
 		$current_user = wp_get_current_user();
 		$current_user_id = $current_user->ID;
-	?>	<div id="bbsf_support_forum_options"> <?php
+	?>	<div id="bbsf_support_forum_options" class="axi-topic-options"> <?php
 			
 			$user_login = $current_user->user_login;
 			if(!empty($topic_assigned)){
@@ -324,8 +326,6 @@ function bbsf_assign_topic_form(){
 	}
 	
 }
-
-add_action( 'bbp_template_before_single_topic' , 'bbsf_assign_topic_form' );	
 
 function bbsf_user_assign_dropdown(){
 
