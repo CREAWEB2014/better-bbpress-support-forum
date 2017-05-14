@@ -53,6 +53,11 @@ class BBSF_Settings {
                 'title' => __( 'Import settings', 'bbsf' ),
                 'desc'  => __( 'Import settings from other plugins or another site.', 'bbsf' )
             ),
+            array(
+                'id'    => 'bbsf_auto_close',
+                'title' => __( 'Auto close settings', 'bbsf' ),
+                'desc'  => __( 'Auto close topics after certain days.', 'bbsf' )
+            ),
         );
         return $sections;
     }
@@ -332,6 +337,7 @@ class BBSF_Settings {
             )
 
         );
+
         
         if ( 'no' === get_option( 'bbsf_imported_bbps', 'no' ) ) {
 
@@ -353,6 +359,13 @@ class BBSF_Settings {
 
         }
 
+        
+        $settings_fields['bbsf_auto_close'][] = array(
+            'name' => 'bbsf_auto_close_time',
+            'label' => __( 'Autoclose topics older than days', 'bbsf' ),
+            'desc' => __( 'Set to 0 to disable autoclose', 'bbsf' ),
+            'type' => 'number'
+        );
 
                 
         return $settings_fields;
