@@ -58,6 +58,11 @@ class BBSF_Settings {
                 'title' => __( 'Auto close settings', 'bbsf' ),
                 'desc'  => __( 'Auto close topics after certain days.', 'bbsf' )
             ),
+            array(
+                'id'    => 'bbsf_auto_reply',
+                'title' => __( 'Auto reply settings', 'bbsf' ),
+                'desc'  => __( 'Auto reply topics after certain days.', 'bbsf' )
+            ),
         );
         return $sections;
     }
@@ -358,13 +363,28 @@ class BBSF_Settings {
             );
 
         }
-
         
+
         $settings_fields['bbsf_auto_close'][] = array(
             'name' => 'bbsf_auto_close_time',
             'label' => __( 'Autoclose topics older than days', 'bbsf' ),
             'desc' => __( 'Set to 0 to disable autoclose', 'bbsf' ),
-            'type' => 'number'
+            'type' => 'number',
+            'default' => 0
+        );
+
+        $settings_fields['bbsf_auto_reply'][] = array(
+            'name' => 'bbsf_auto_reply_time',
+            'label' => __( 'Auto reply topics after days', 'bbsf' ),
+            'desc' => __( 'Set to 0 to disable autoreply', 'bbsf' ),
+            'type' => 'number',
+            'default' => 0
+        );
+
+        $settings_fields['bbsf_auto_reply'][] = array(
+            'name' => 'bbsf_auto_reply_text',
+            'label' => __( 'Auto reply content', 'bbsf' ),
+            'type' => 'wysiwyg',
         );
 
                 
