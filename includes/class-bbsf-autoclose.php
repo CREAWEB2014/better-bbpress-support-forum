@@ -32,23 +32,23 @@ class BBSF_Autoclose {
                     $post_type      = bbp_get_topic_post_type();
                                            
                      $query = new WP_Query( array ( 
-                            'fields'                 => 'ids',
-                            'cache_results'          => false,
-                            'update_post_term_cache' => false,
-                            'update_post_meta_cache' => false,
-                            'ignore_sticky_posts'    => 1,
-                            'post_type'              => $post_type,
-                            'post_status'            => 'publish',
-                            'posts_per_page'         => -1,
-                            'meta_query' => array(
-                                            array(
-                                                    'type'    => 'DATETIME',
-                                                    'key'     => '_bbp_last_active_time',
-                                                    'value'   => date("Y-m-d H:i:s", strtotime('-' . $this->time . ' days')),
-                                                    'compare' => '<'
-                                            )
-                                    ) 
+                        'fields'                 => 'ids',
+                        'cache_results'          => false,
+                        'update_post_term_cache' => false,
+                        'update_post_meta_cache' => false,
+                        'ignore_sticky_posts'    => 1,
+                        'post_type'              => $post_type,
+                        'post_status'            => 'publish',
+                        'posts_per_page'         => -1,
+                        'meta_query' => array(
+                                array(
+                                    'type'    => 'DATETIME',
+                                    'key'     => '_bbp_last_active_time',
+                                    'value'   => date( "Y-m-d H:i:s", strtotime( '-' . $this->time . ' days') ),
+                                    'compare' => '<'
+                                )
                             ) 
+                        ) 
                     );
                    
                     //Get topics count

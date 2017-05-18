@@ -33,6 +33,7 @@ class BBSF_Main {
         require_once 'bbsf-support-functions.php';
         require_once 'bbsf-user-ranking-functions.php';
         require_once 'class-bbsf-autoclose.php';
+        require_once 'class-bbsf-autoreply.php';
 
     }
 

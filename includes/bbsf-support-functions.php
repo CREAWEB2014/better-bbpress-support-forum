@@ -103,13 +103,13 @@ function bbsf_generate_status_options($topic_id){
 		<select name="bbsf_support_option" id="bbsf_support_options"> 
 			<?php
 			//we only want to display the options the user has selected. the long term goal is to let users add their own forum statuses
-			if ( 'on' === $resolved_status ){ ?> <option value="1" <?php selected( $value, 'resolved' ) ; ?> >not resolved</option> <?php }  
-			if ( 'on' === $not_resolved_status ) {?> <option value="2" <?php selected( $value, 'not_resolved' ) ; ?> >resolved</option> <?php } 
-			if ( 'on' === $not_support_status ) {?> <option value="3" <?php selected( $value, 'not_support' ) ; ?> >not a support question</option> <?php } ?>
+			if ( 'on' === $resolved_status ){ ?> <option value="resolved" <?php selected( $value, 'resolved' ) ; ?> >resolved</option> <?php }  
+			if ( 'on' === $not_resolved_status ) {?> <option value="not_resolved" <?php selected( $value, 'not_resolved' ) ; ?> >not resolved</option> <?php } 
+			if ( 'on' === $not_support_status ) {?> <option value="not_support" <?php selected( $value, 'not_support' ) ; ?> >not a support question</option> <?php } ?>
 		</select>
-		<input type="submit" value="Update" name="bbsf_support_submit" />
-		<input type="hidden" value="bbsf_update_status" name="bbsf_action"/>
-		<input type="hidden" value="<?php echo $topic_id ?>" name="bbsf_topic_id" />
+		<input type="submit" value="Update" name="bbsf_support_submit">
+		<input type="hidden" value="bbsf_update_status" name="bbsf_action">
+		<input type="hidden" value="<?php echo $topic_id ?>" name="bbsf_topic_id">
 	</form> 
 	<?php
 }
@@ -418,20 +418,20 @@ function bbsf_modify_title($title, $topic_id = 0){
 		}
 
 	//2 is the resolved status ID
-	if (get_post_meta( $topic_id, '_bbsf_topic_status', true ) == 2)
-		echo '<span class="resolved"> [Resolved] </span>';
+	if (get_post_meta( $topic_id, '_bbsf_topic_status', true ) == 'resolved')
+		echo '<span class="topic-status resolved"></span>';
 	//we only want to display the urgent topic status to admin and moderators
-	if (get_post_meta( $topic_id, '_bbsf_urgent_topic', true ) == 1 && (current_user_can('administrator') || current_user_can('bbp_moderator')))
-		echo '<span class="urgent"> [Urgent] </span>';
+	if (get_post_meta( $topic_id, '_bbsf_urgent_topic', true ) == 'not_resolved' && (current_user_can('administrator') || current_user_can('bbp_moderator')))
+		echo '<span class="topic-status urgent"></span>';
 	//claimed topics also only get shown to admin and moderators and the person who owns the topic
 	if (get_post_meta( $topic_id, '_bbsf_topic_claimed', true ) > 0 && (current_user_can('administrator') || current_user_can('bbp_moderator') || $topic_author_id == $user_id ) ){
 		//if this option == 1 we display the users name not [claimed]
 		if( 'on' === bbsf_get_option( 'bbsf_show_claimed_user', 'bbsf_support_forum', 'off' ) )
-			echo '<span class="claimed">['. $claimed_user_name . ']</span>';
+			echo '<span class="topic-status claimed"></span>';
 		else
-			echo '<span class="claimed"> [Claimed] </span>';
+			echo '<span class="topic-status claimed"></span>';
 	}
 }
 
 	
-add_action('bbp_theme_before_topic_title', 'bbsf_modify_title');
+// add_action('bbp_theme_before_topic_title', 'bbsf_modify_title');
