@@ -344,7 +344,7 @@ class BBSF_Settings {
         );
 
         
-        if ( 'no' === get_option( 'bbsf_imported_bbps', 'no' ) ) {
+        if ( 'yes' !== get_option( 'bbsf_imported_bbps', 'no' ) || 'yes' !== get_option( 'bbsf_meta_imported_bbps', 'no' ) ) {
 
             $settings_fields['bbsf_import_settings'][] = array(
                 'name'  => 'import_bbps_settings',

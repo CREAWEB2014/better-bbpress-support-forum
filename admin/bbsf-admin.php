@@ -160,6 +160,123 @@ function bbsf_import_bbps_ajax() {
 
 
 	update_option( 'bbsf_imported_bbps', 'yes' );
+
+
+	/*----------------------------------------------------------------------------*/
+
+	$_forums = get_posts( 
+		array(
+			'post_type' => bbp_get_forum_post_type(),
+			'meta_key' => '_bbps_is_premium'
+		) 
+	);
+
+	foreach ( $_forums as $post ) {
+		
+		$old_val = get_post_meta( $post->ID, '_bbps_is_premium', true );
+
+		update_post_meta( $post->ID, '_bbsf_is_premium', $old_val );
+
+	}
+
+	/*----------------------*/
+
+	$_forums = get_posts( 
+		array(
+			'post_type' => bbp_get_forum_post_type(),
+			'meta_key' => '_bbps_is_support'
+		) 
+	);
+
+	foreach ( $_forums as $post ) {
+		
+		$old_val = get_post_meta( $post->ID, '_bbps_is_support', true );
+
+		update_post_meta( $post->ID, '_bbsf_is_support', $old_val );
+
+	}
+
+	/*----------------------*/
+
+	$_topics = get_posts( 
+		array(
+			'post_type' => bbp_get_topic_post_type(),
+			'meta_key' => '_bbps_topic_status'
+		) 
+	);
+
+	foreach ( $_topics as $post ) {
+		
+		$old_val = get_post_meta( $post->ID, '_bbps_topic_status', true );
+
+		if ( 1 == $old_val ) {
+			$old_val = 'not_resolved';
+		} elseif ( 2 == $old_val ) {
+			$old_val = 'resolved';
+		} elseif ( 3 == $old_val ){
+			$old_val = 'not_support';
+		}
+
+		update_post_meta( $post->ID, '_bbsf_topic_status', $old_val );
+
+	}
+
+	/*----------------------*/
+
+	$_topics = get_posts( 
+		array(
+			'post_type' => bbp_get_topic_post_type(),
+			'meta_key' => '_bbps_urgent_topic'
+		) 
+	);
+
+	foreach ( $_topics as $post ) {
+		
+		$old_val = get_post_meta( $post->ID, '_bbps_urgent_topic', true );
+
+		update_post_meta( $post->ID, '_bbsf_urgent_topic', $old_val );
+
+	}
+
+	/*----------------------*/
+	
+	$_topics = get_posts( 
+		array(
+			'post_type' => bbp_get_topic_post_type(),
+			'meta_key' => '_bbps_topic_claimed'
+		) 
+	);
+
+	foreach ( $_topics as $post ) {
+		
+		$old_val = get_post_meta( $post->ID, '_bbps_topic_claimed', true );
+
+		update_post_meta( $post->ID, '_bbsf_topic_claimed', $old_val );
+
+	}
+
+	/*----------------------*/	
+
+	$_topics = get_posts( 
+		array(
+			'post_type' => bbp_get_topic_post_type(),
+			'meta_key' => 'bbps_topic_assigned'
+		) 
+	);
+
+	foreach ( $_topics as $post ) {
+		
+		$old_val = get_post_meta( $post->ID, 'bbps_topic_assigned', true );
+
+		update_post_meta( $post->ID, 'bbsf_topic_assigned', $old_val );
+
+	}
+
+	/*----------------------*/
+
+	update_option( 'bbsf_meta_imported_bbps', 'yes' );
+
+
 	wp_send_json_success( get_option( '_bbsf_default_status', false ) );
 
 
